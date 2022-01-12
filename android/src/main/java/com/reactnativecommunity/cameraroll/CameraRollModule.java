@@ -397,17 +397,11 @@ public class CameraRollModule extends ReactContextBaseJavaModule {
         selection.replace(selection.length() - 1, selection.length(), ")");
       }
 
-      if (mFromTime > 0) {
-        long addedDate = mFromTime / 1000;
-        selection.append(" AND (" + Images.Media.DATE_TAKEN + " > ? OR ( " + Images.Media.DATE_TAKEN
-                + " IS NULL AND " + Images.Media.DATE_ADDED + "> ? ))");
+      if (mFromTime > 0 && mToTime > 0) {
+        selection.append(" AND ( ( " + Images.Media.DATE_TAKEN + " > ? AND " + Images.Media.DATE_TAKEN + " <= ? ) OR  ( " +  MediaStore.MediaColumns.DATE_ADDED  + " > ? AND " + MediaStore.MediaColumns.DATE_ADDED + " <= ? ) )");
         selectionArgs.add(mFromTime + "");
-        selectionArgs.add(addedDate + "");
-      }
-      if (mToTime > 0) {
-        long addedDate = mToTime / 1000;
-        selection.append(" AND (" + Images.Media.DATE_TAKEN + " <= ? OR ( " + Images.Media.DATE_TAKEN
-                + " IS NULL AND " + Images.Media.DATE_ADDED + " <= ? ))");
+        selectionArgs.add(mToTime + "");
+        selectionArgs.add(mFromTime + "");
         selectionArgs.add(mToTime + "");
         selectionArgs.add(addedDate + "");
       }
