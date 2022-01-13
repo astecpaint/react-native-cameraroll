@@ -410,9 +410,17 @@ public class CameraRollModule extends ReactContextBaseJavaModule {
       try {
         Cursor media;
 
-        String sortQuery = "(CASE WHEN " + Images.Media.DATE_TAKEN + "<=0 THEN " + Images.Media.DATE_ADDED
+        String sortQueryDESC = "(CASE WHEN " + Images.Media.DATE_TAKEN + "<=0 THEN " + Images.Media.DATE_ADDED
                 + "*1000 ELSE " + Images.Media.DATE_TAKEN + " END) DESC, "
                 + Images.Media.DATE_MODIFIED + " DESC";
+        String sortQueryASC = "(CASE WHEN " + Images.Media.DATE_TAKEN + "<=0 THEN " + Images.Media.DATE_ADDED
+                + "*1000 ELSE " + Images.Media.DATE_TAKEN + " END) ASC, "
+                + Images.Media.DATE_MODIFIED + " ASC";
+        String sortQuery = sortQueryDESC;
+        
+        if(Build.VERSION.SDK_INT >= 31){
+          sortQuery = sortQueryASC;
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
           Bundle bundle = new Bundle();
