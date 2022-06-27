@@ -171,7 +171,7 @@ RCT_EXPORT_METHOD(saveToCameraRoll:(NSURLRequest *)request
       } else {
         NSData *data = [NSData dataWithContentsOfURL:inputURI];
         UIImage *image = [UIImage imageWithData:data];
-        assetRequest = [PHAssetChangeRequest creationRequestForAssetFromImage:image];
+        assetRequest = [PHAssetChangeRequest creationRequestForAssetFromImageAtFileURL:inputURI];
       }
       placeholder = [assetRequest placeholderForCreatedAsset];
       if (![options[@"album"] isEqualToString:@""]) {
